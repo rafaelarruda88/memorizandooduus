@@ -1,0 +1,96 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Arial', sans-serif; /* Escolha uma fonte legível */
+    background-color: #f0f0f0; /* Cor de fundo suave */
+}
+
+#game {
+    width: 90%; /* Utiliza a maior parte da largura da tela, mas não tudo */
+    max-width: 600px; /* Limita a largura máxima para grandes telas */
+    margin: 20px auto; /* Centraliza o jogo na tela e adiciona espaço ao redor */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff; /* Fundo branco para a área do jogo */
+    border-radius: 10px; /* Bordas arredondadas para estética */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra sutil para profundidade */
+    text-align: center; /* Centraliza conteúdo de texto e elementos inline */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#symbolImage {
+    max-width: 100%; /* Garante que a imagem não exceda a largura do contêiner */
+    max-height: 50vh; /* Limita a altura da imagem a 50% da altura da tela */
+    object-fit: contain; /* Garante que a imagem seja totalmente visível */
+    display: block;
+    margin: 0 auto 20px auto; /* Centraliza a imagem horizontalmente e adiciona espaço embaixo */
+}
+
+#options {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#options button {
+    flex-basis: 48%;
+    margin: 10px 1%; /* Adiciona margem horizontal */
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+
+#score {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    #options button {
+        font-size: 14px;
+        padding: 8px;
+        flex-basis: 100%; /* Botões ocupam a largura total em telas pequenas */
+        margin: 10px 0; /* Ajusta a margem para telas menores */
+    }
+
+    #game {
+        width: 95%;
+        margin: 10px auto; /* Reduz a margem superior e inferior para telas menores */
+        padding: 10px; /* Reduz o preenchimento para telas menores */
+    }
+
+    #symbolImage {
+        max-height: 30vh; /* Reduz a altura máxima da imagem para telas menores */
+    }
+}
+
+#resetButton {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

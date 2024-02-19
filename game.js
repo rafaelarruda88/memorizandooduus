@@ -15,52 +15,63 @@ const images = [
     {src: 'image14.png', name: 'Irete Meji'},
     {src: 'image15.png', name: 'Ose Meji'},
     {src: 'image16.png', name: 'Ofun Meji'},
-    // Adicione todos os 16 objetos com as propriedades 'src' e 'name'
 ];
 
-let correctCount = 0; // Inicializa a contagem de acertos
-let wrongCount = 0; // Inicializa a contagem de erros
+let correctCount = 0;
+let wrongCount = 0;
 
 function setupGame() {
     const imageElement = document.getElementById('symbolImage');
     const optionsContainer = document.getElementById('options');
     const statusMessage = document.getElementById('statusMessage');
 
-    // Embaralha as imagens e escolhe uma aleatoriamente
     const shuffledImages = [...images].sort(() => 0.5 - Math.random());
-    const selectedImage = shuffledImages[0]; // Pega a primeira imagem do array embaralhado
-    imageElement.src = selectedImage.src; // Atualiza o src da imagem
-    imageElement.alt = selectedImage.name; // Atualiza o alt da imagem
+    const selectedImage = shuffledImages[0];
+    imageElement.src = selectedImage.src;
+    imageElement.alt = selectedImage.name;
 
-    optionsContainer.innerHTML = ''; // Limpa opções anteriores
+    optionsContainer.innerHTML = '';
     statusMessage.textContent = '';
 
-    // As opções podem ser geradas com base em todas as imagens ou um subconjunto
-    images.forEach((image, index) => {
+    // Seleciona mais duas imagens aleatórias para serem as opções erradas
+    let options = [selectedImage];
+    while (options.length < 3) {
+        let option = shuffledImages[Math.floor(Math.random() * shuffledImages.length)];
+        if (!options.includes(option)) {
+            options.push(option);
+        }
+    }
+
+    // Embaralha as opções para que a posição da resposta correta varie
+    options = options.sort(() => 0.5 - Math.random());
+
+    // Cria botões apenas para as três opções selecionadas
+    options.forEach((option) => {
         const button = document.createElement('button');
-        button.textContent = image.name;
-        button.onclick = () => checkAnswer(image.name, selectedImage.name);
+        button.textContent = option.name;
+        button.onclick = () => checkAnswer(option.name, selectedImage.name);
         optionsContainer.appendChild(button);
     });
 }
 
 function checkAnswer(selectedName, correctName) {
     if (selectedName === correctName) {
-        correctCount++; // Incrementa a contagem de acertos
-        setupGame(); // Randomiza novamente as imagens
+        correctCount++;
+        document.getElementById('statusMessage').textContent = 'Correto!';
     } else {
-        wrongCount++; // Incrementa a contagem de erros
+        wrongCount++;
         document.getElementById('statusMessage').textContent = 'Incorreto, tente novamente.';
     }
-    // Atualiza o placar na página
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
+    // Aguarda um pouco antes de configurar o próximo jogo para que o jogador veja a resposta
+    setTimeout(setupGame, 1000);
 }
 
 function resetGame() {
     correctCount = 0;
     wrongCount = 0;
-    setupGame(); // Reconfigura o jogo para o início
+    setupGame();
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
     document.getElementById('statusMessage').textContent = '';

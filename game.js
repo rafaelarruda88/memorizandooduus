@@ -25,28 +25,32 @@ function setupGame() {
     const optionsContainer = document.getElementById('options');
     const statusMessage = document.getElementById('statusMessage');
 
-    const shuffledImages = [...images].sort(() => 0.5 - Math.random());
-    const selectedImage = shuffledImages[0];
-    imageElement.src = selectedImage.src;
-    imageElement.alt = selectedImage.name;
-
+    // Limpa opções anteriores e a mensagem de status
     optionsContainer.innerHTML = '';
     statusMessage.textContent = '';
 
-    // Seleciona mais duas imagens aleatórias para serem as opções erradas
+    // Embaralha as imagens para seleção aleatória
+    let shuffledImages = [...images].sort(() => 0.5 - Math.random());
+    let selectedImage = shuffledImages[0];
     let options = [selectedImage];
+
+    // Escolhe mais duas opções aleatórias diferentes da correta
     while (options.length < 3) {
-        let option = shuffledImages[Math.floor(Math.random() * shuffledImages.length)];
-        if (!options.includes(option)) {
-            options.push(option);
+        let randomOption = shuffledImages[Math.floor(Math.random() * shuffledImages.length)];
+        if (!options.includes(randomOption)) {
+            options.push(randomOption);
         }
     }
 
-    // Embaralha as opções para que a posição da resposta correta varie
-    options = options.sort(() => 0.5 - Math.random());
+    // Embaralha as opções para não deixar a correta sempre na mesma posição
+    options.sort(() => 0.5 - Math.random());
 
-    // Cria botões apenas para as três opções selecionadas
-    options.forEach((option) => {
+    // Atualiza a imagem a ser adivinhada
+    imageElement.src = selectedImage.src;
+    imageElement.alt = selectedImage.name;
+
+    // Cria botões para as opções de resposta
+    options.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option.name;
         button.onclick = () => checkAnswer(option.name, selectedImage.name);
@@ -62,19 +66,12 @@ function checkAnswer(selectedName, correctName) {
         wrongCount++;
         document.getElementById('statusMessage').textContent = 'Incorreto, tente novamente.';
     }
+    // Atualiza os contadores na tela
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
-    // Aguarda um pouco antes de configurar o próximo jogo para que o jogador veja a resposta
-    setTimeout(setupGame, 1000);
+    // Configura a próxima rodada
+    setTimeout(setupGame, 1000); // Dá um breve intervalo antes de iniciar a nova rodada
 }
 
-function resetGame() {
-    correctCount = 0;
-    wrongCount = 0;
-    setupGame();
-    document.getElementById('correctCount').textContent = correctCount;
-    document.getElementById('wrongCount').textContent = wrongCount;
-    document.getElementById('statusMessage').textContent = '';
-}
-
+// Inicializa o jogo quando a janela é carregada
 window.onload = setupGame;
